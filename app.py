@@ -32,7 +32,7 @@ FIXED_FILE_NAME = "hcmdata.xlsx"
 LOGO_FILE = "logo.png"
 
 # 【代理设置】
-PROXY_URL = "http://127.0.0.1:10809"
+# PROXY_URL = "http://127.0.0.1:10809"
 
 # 【限制设置】
 PREVIEW_ROW_LIMIT = 500   # 纯表模式下可以适当增加预览行数
@@ -43,8 +43,7 @@ EXPORT_ROW_LIMIT = 5000
 @st.cache_resource
 def get_client():
     if not FIXED_API_KEY: return None
-    os.environ["HTTP_PROXY"] = PROXY_URL
-    os.environ["HTTPS_PROXY"] = PROXY_URL
+    # 注意：这里不需要 os.environ 设置代理了
     try:
         return genai.Client(api_key=FIXED_API_KEY, http_options={'api_version': 'v1beta'})
     except Exception as e:
@@ -669,3 +668,4 @@ if df is not None:
                 st.error(f"系统错误: {e}")
             finally:
                 stop_btn_placeholder.empty()
+
