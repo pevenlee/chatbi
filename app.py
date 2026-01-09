@@ -22,8 +22,11 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 【这里填你的 Key】
-FIXED_API_KEY = "AIzaSyD_31WTFk5_GzO_l07nZSV4ybJvud4HgLg" 
+# 修改为从 secrets 读取
+try:
+    FIXED_API_KEY = st.secrets["GENAI_API_KEY"]
+except:
+    FIXED_API_KEY = "" # 防止本地运行时报错
 
 # 【这里填你的 Excel 文件名】
 FIXED_FILE_NAME = "hcmdata.xlsx" 
@@ -668,4 +671,5 @@ if df is not None:
                 st.error(f"系统错误: {e}")
             finally:
                 stop_btn_placeholder.empty()
+
 
