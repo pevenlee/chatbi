@@ -600,6 +600,7 @@ if df is not None:
                         prompt_plan = f"""
                         你是一位医药行业 BI 专家。请将问题："{current_query}" 拆解为 2-5 个分析角度。
                         请结合竞争关系数据库，带入竞争对手视角进行分析。
+                        当被询问评价表现时，请尽可能结合时间动态地思考问题
                         【元数据】{meta_data}
                         【历史记录】{history_context_str}
                         【时间上下文】MAT: {mat_list} (完整性: {is_mat_complete}), YTD: {ytd_list}
@@ -703,6 +704,7 @@ if df is not None:
                 st.error(f"系统错误: {e}")
             finally:
                 stop_btn_placeholder.empty()
+
 
 
 
