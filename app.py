@@ -16,7 +16,7 @@ warnings.filterwarnings('ignore')
 # ================= 1. 基础配置 =================
 
 st.set_page_config(
-    page_title="ChatBI - 医药魔方", 
+    page_title="ChatBI", 
     layout="wide", 
     page_icon="🧬", 
     initial_sidebar_state="expanded"
@@ -330,6 +330,7 @@ def parse_response(text):
 
 def render_header_nav():
     logo_b64 = ""
+    # 注意：请确保你的 Logo 文件名正确，你上传的 Logo 可能是 image_xxx.png，请重命名为 logo.png
     if os.path.exists(LOGO_FILE):
         with open(LOGO_FILE, "rb") as f:
             logo_b64 = base64.b64encode(f.read()).decode()
@@ -337,24 +338,24 @@ def render_header_nav():
     logo_img_tag = f'<img src="data:image/png;base64,{logo_b64}" class="nav-logo-img">' if logo_b64 else ""
     user_initials = "PRO"
 
+    # 关键修改：HTML 标签必须顶格写，不能有缩进，否则会被当成代码块显示
     st.markdown(f"""
-    <div class="fixed-header-container">
-        <div class="nav-left">
-            {logo_img_tag}
-            <div class="nav-brand-text">医药魔方</div>
-        </div>
-        
-        <div class="nav-center">
-            <div class="nav-item">HCM</div> 
-            <div class="nav-item active">ChatBI</div>
-        </div>
-        
-        <div class="nav-right">
-            <div class="nav-avatar" title="当前用户">{user_initials}</div>
-            <button class="nav-exit-btn" onclick="alert('Web应用中无法直接退出浏览器，您可以直接关闭标签页。')">退出</button>
-        </div>
+<div class="fixed-header-container">
+    <div class="nav-left">
+        {logo_img_tag}
     </div>
-    """, unsafe_allow_html=True)
+    
+    <div class="nav-center">
+        <div class="nav-item">HCM</div> 
+        <div class="nav-item active">ChatBI</div>
+    </div>
+    
+    <div class="nav-right">
+        <div class="nav-avatar" title="当前用户">{user_initials}</div>
+        <button class="nav-exit-btn" onclick="alert('Web应用中无法直接退出浏览器，您可以直接关闭标签页。')">退出</button>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 # ================= 4. 主程序执行 =================
 
@@ -702,3 +703,4 @@ if df is not None:
                 st.error(f"系统错误: {e}")
             finally:
                 stop_btn_placeholder.empty()
+
