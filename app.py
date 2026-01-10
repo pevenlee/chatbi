@@ -330,7 +330,7 @@ def parse_response(text):
 
 def render_header_nav():
     logo_b64 = ""
-    # 注意：请确保你的 Logo 文件名正确，你上传的 Logo 可能是 image_xxx.png，请重命名为 logo.png
+    # ⚠️ 请确保你的 Logo 文件名为 logo.png，并且在项目根目录下
     if os.path.exists(LOGO_FILE):
         with open(LOGO_FILE, "rb") as f:
             logo_b64 = base64.b64encode(f.read()).decode()
@@ -343,6 +343,7 @@ def render_header_nav():
 <div class="fixed-header-container">
     <div class="nav-left">
         {logo_img_tag}
+        <div class="nav-brand-text">医药魔方</div>
     </div>
     
     <div class="nav-center">
@@ -703,4 +704,5 @@ if df is not None:
                 st.error(f"系统错误: {e}")
             finally:
                 stop_btn_placeholder.empty()
+
 
