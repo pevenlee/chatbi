@@ -526,7 +526,7 @@ if df is not None:
                 elif intent_type == 'simple':
                     with st.spinner("⚡ 正在解析意图并生成代码..."):
                         simple_prompt = f"""
-                        你是一位 Pandas 数据处理专家。用户需求："{current_query}"
+                        你是一位 Pandas 数据处理专家，当被询问评价表现时，请尽可能结合时间、结合市场环境。用户需求："{current_query}"
                         【元数据】{meta_data}
                         【历史记录】{history_context_str}
                         【时间上下文】MAT: {mat_list} (完整性: {is_mat_complete}), YTD: {ytd_list}
@@ -704,6 +704,7 @@ if df is not None:
                 st.error(f"系统错误: {e}")
             finally:
                 stop_btn_placeholder.empty()
+
 
 
 
