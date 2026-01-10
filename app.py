@@ -326,11 +326,11 @@ def parse_response(text):
     except Exception: pass
     return reasoning, json_data
 
-# ================= 3. 页面渲染函数 =================
+# ================= 3. 页面渲染函数 (终极修复版) =================
 
 def render_header_nav():
     logo_b64 = ""
-    # ⚠️ 请确保你的 Logo 文件名为 logo.png，并且在项目根目录下
+    # 确保 logo.png 存在
     if os.path.exists(LOGO_FILE):
         with open(LOGO_FILE, "rb") as f:
             logo_b64 = base64.b64encode(f.read()).decode()
@@ -338,25 +338,29 @@ def render_header_nav():
     logo_img_tag = f'<img src="data:image/png;base64,{logo_b64}" class="nav-logo-img">' if logo_b64 else ""
     user_initials = "PRO"
 
-    # 关键修改：HTML 标签必须顶格写，不能有缩进，否则会被当成代码块显示
-    st.markdown(f"""
-<div class="fixed-header-container">
-    <div class="nav-left">
-        {logo_img_tag}
-        <div class="nav-brand-text">医药魔方</div>
+    # --- 核心修改 ---
+    # 我们在这里定义 HTML，即使你有缩进也没关系
+    # 因为我们在最后会用 .replace 把它压扁
+    nav_html = f"""
+    <div class="fixed-header-container">
+        <div class="nav-left">
+            {logo_img_tag}
+            <div class="nav-brand-text">医药魔方</div>
+        </div>
+        <div class="nav-center">
+            <div class="nav-item">HCM</div> 
+            <div class="nav-item active">ChatBI</div>
+        </div>
+        <div class="nav-right">
+            <div class="nav-avatar" title="当前用户">{user_initials}</div>
+            <button class="nav-exit-btn" onclick="alert('Web应用中无法直接退出浏览器，您可以直接关闭标签页。')">退出</button>
+        </div>
     </div>
+    """
     
-    <div class="nav-center">
-        <div class="nav-item">HCM</div> 
-        <div class="nav-item active">ChatBI</div>
-    </div>
-    
-    <div class="nav-right">
-        <div class="nav-avatar" title="当前用户">{user_initials}</div>
-        <button class="nav-exit-btn" onclick="alert('Web应用中无法直接退出浏览器，您可以直接关闭标签页。')">退出</button>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+    # 🔥 关键一步：移除所有换行符，强制变为单行 HTML
+    # 这样就彻底避免了 Markdown 的缩进误判
+    st.markdown(nav_html.replace("\n", ""), unsafe_allow_html=True)
 
 # ================= 4. 主程序执行 =================
 
@@ -704,5 +708,6 @@ if df is not None:
                 st.error(f"系统错误: {e}")
             finally:
                 stop_btn_placeholder.empty()
+
 
 
